@@ -10,9 +10,33 @@ from .serializers import ProductSerializer, CategorySerializer
 from rest_framework import permissions, status
 from account.permissions import IsOwnerOrReadOnly, is_vendor
 from account.permissions import IsVendor
+import django_filters.rest_framework
+from django.contrib.auth.models import User
+from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
 
-class ProductListApiView(APIView):
-    permission_classes = [IsVendor]
+from rest_framework import filters
+from django.core.paginator import Paginator
+
+
+class ProductListApiView(generics.ListAPIView):
+    permission_classes = [permissions.AllowAny]
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    filter_backends = [filters.SearchFilter]
+    ordering_fields = ['username', 'email']
+    filterset_fields = ['category', 'price']
+    search_fields = ['username', 'email']
+
+
+    def get(self, request):
+        products = Product.objects.all()
+        paginator = Paginator(products, 5)
+        page_num = self.request.query_params.get('page')
+        print(page_num)
+        serializers = ProductSerializer(paginator.page(page_num), many=True)
+        return Response(serializers.data)
+
 
     def get(self,  request):
         products = Product.objects.all()
@@ -123,3 +147,5 @@ class CategoryDetailApiView(APIView):
         data['products'] = serializer2.data
 
         return Response(data)
+
+

@@ -7,7 +7,8 @@ from .views import(
     ProductDestroyApiView,
     CategoryListApiView,
     CategoryCreateApiView,
-CategoryDetailApiView
+CategoryDetailApiView,
+
 )
 
 urlpatterns = [
