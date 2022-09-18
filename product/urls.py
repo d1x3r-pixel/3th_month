@@ -8,16 +8,17 @@ from .views import(
     CategoryListApiView,
     CategoryCreateApiView,
 CategoryDetailApiView,
-
+PriceApiView,
+LenProduct,
+Revenue
 )
 
 urlpatterns = [
     path('prod_list/', ProductListApiView.as_view(), name='prod-list'),
     path('prod_create/', ProductCreateApiView.as_view(), name='prod-create'),
-    path('detail/<int:id>/', ProductDetailApiView.as_view(), name='detail'),
-    path('update/<int:id>/', ProductUpdateApiView.as_view(), name='update'),
-    path('delete/<int:id>/', ProductDestroyApiView.as_view(), name='delete'),
     path('cat_list/', CategoryListApiView.as_view(), name='cat-list'),
     path('cat_create/', CategoryCreateApiView.as_view(), name='cat-create'),
-    path('filter_by_category/<slug:name>/', CategoryDetailApiView.as_view(), name='cat_detail'),
+    path('price/', PriceApiView.as_view(), name='price'),
+    path('len/', LenProduct.as_view(), name='len'),
+    path('rev/', Revenue.as_view(), name='rev'),
 ]
